@@ -1,0 +1,124 @@
+#btn-Crear-Nuevo {
+    margin: 20px 5px;
+    padding: 10px 5px;
+    background-color: #7dc57f;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+#btn-Crear-Nuevo:hover {
+    margin: 20px 5px;
+    padding: 10px 5px;
+    background-color: #fff;
+    color: #7dc57f;
+    font-weight: bold;
+}
+
+.btn-Editar {
+    margin: 5px 5px;
+    padding: 10px 5px;
+    background-color: #799bd5;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.btn-Editar:hover {
+    margin: 5px 5px;
+    padding: 10px 5px;
+    background-color: #fff;
+    color: #799bd5;
+    font-weight: bold;
+}
+
+.btn-Activar {
+    margin: 5px 5px;
+    padding: 10px 5px;
+    background-color: #e1e180;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.btn-Activar:hover {
+    margin: 5px 5px;
+    padding: 10px 5px;
+    background-color: #fff;
+    color: #e1e180;
+    font-weight: bold;
+}
+
+.card-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.card-body form {
+    padding: 10px 10px;
+}
+
+.form-control,
+.form-select {
+    height: calc(1rem + 2px);
+    margin: 5px;
+}
+
+.pagination {
+    margin-bottom: 0;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.pagination .page-item .page-link {
+    color: var(--primary-color, #007bff);
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    padding: 0.75rem 1.25rem;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    z-index: 1;
+    border-radius: 0 !important;
+}
+
+.pagination .page-item:first-child .page-link {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+.pagination .page-item:last-child .page-link {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.pagination .page-item:not(:first-child) .page-link {
+    margin-left: -1px;
+}
+
+.pagination .page-item .page-link:hover,
+.pagination .page-item .page-link:focus {
+    z-index: 2;
+    color: var(--primary-dark, #0056b3);
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+    outline: 0;
+    box-shadow: none;
+}
+
+.pagination .page-item.active .page-link {
+    z-index: 3;
+    color: var(--text-white, white);
+    background-color: var(--primary-color, #007bff);
+    border-color: var(--primary-color, #007bff);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.25);
+    cursor: default;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+    opacity: 0.65;
+}

@@ -1,0 +1,53 @@
+<div class="container">
+  <h2>{{ isEditMode ? 'Editar Cliente' : 'Crear Nuevo Cliente' }}</h2>
+
+  <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="numId">Número de Identificación:</label>
+      <input type="text" id="numId" formControlName="numId" class="form-control"
+        [class.is-invalid]="numIdControl?.invalid && numIdControl?.touched || numIdControl?.pending">
+
+      <div *ngIf="numIdControl?.pending" class="text-info">
+        Validando número de identificación...
+      </div>
+
+      <div *ngIf="numIdControl?.errors && numIdControl?.touched" class="invalid-feedback">
+        <span *ngIf="numIdControl?.errors?.['required']">El número de identificación es requerido.</span>
+        <span *ngIf="numIdControl?.errors?.['numIdExists']">Este número de identificación ya existe.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="nombres">Nombres:</label>
+      <input type="text" id="nombres" formControlName="nombres" class="form-control"
+        [class.is-invalid]="clienteForm.get('nombres')?.invalid && clienteForm.get('nombres')?.touched">
+      <div *ngIf="clienteForm.get('nombres')?.invalid && clienteForm.get('nombres')?.touched" class="invalid-feedback">
+        Los nombres son requeridos.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="apellidos">Apellidos:</label>
+      <input type="text" id="apellidos" formControlName="apellidos" class="form-control"
+        [class.is-invalid]="clienteForm.get('apellidos')?.invalid && clienteForm.get('apellidos')?.touched">
+      <div *ngIf="clienteForm.get('apellidos')?.invalid && clienteForm.get('apellidos')?.touched"
+        class="invalid-feedback">
+        Los apellidos son requeridos.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="correo">Correo:</label>
+      <input type="email" id="correo" formControlName="correo" class="form-control"
+        [class.is-invalid]="clienteForm.get('correo')?.invalid && clienteForm.get('correo')?.touched">
+      <div *ngIf="clienteForm.get('correo')?.invalid && clienteForm.get('correo')?.touched" class="invalid-feedback">
+        <span *ngIf="clienteForm.get('correo')?.errors?.['email']">Debe ser un formato de correo válido.</span>
+      </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-success btn-Actualizar" [disabled]="clienteForm.invalid || isCheckingNumId">{{
+      isEditMode ? 'Actualizar' : 'Crear' }}</button>
+    <button type="button" (click)="goBack()" class="btn btn-secondary ml-2 btn-Activar">Cancelar</button>
+  </form>
+</div>

@@ -1,0 +1,141 @@
+<div class="container mt-4">
+  <h2>Listado de Clientes</h2>
+
+  <div class="card mb-3">
+    <div class="card-header">Filtros</div>
+    <div class="card-body">
+      <form [formGroup]="filterForm">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 align-items-end">
+          <div class="col">
+            <label for="filterNombres" class="form-label">Nombre/Apellido</label> <input type="text" id="filterNombres"
+              formControlName="nombres" class="form-control" placeholder="Nombre o Apellido">
+          </div>
+
+          <div class="col">
+            <label for="filterNumId" class="form-label">Identificación</label>
+            <input type="text" id="filterNumId" formControlName="numId" class="form-control"
+              placeholder="Identificación">
+          </div>
+
+          <div class="col">
+            <label for="filterEstado" class="form-label">Estado:</label>
+            <select id="filterEstado" formControlName="estado" class="form-select">
+              <option [ngValue]="true">Activo</option>
+              <option [ngValue]="false">Inactivo</option>
+              <option [ngValue]="null">Todos</option>
+            </select>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <button id="btn-Crear-Nuevo" class="btn btn-primary" (click)="newCliente()">Crear Nuevo Cliente</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th (click)="sortBy('Id')" [class.sortable]="true" [class]="getSortClass('Id')">
+            ID
+            <i class="fas fa-sort" [class.fa-sort-up]="sortField === 'Id' && sortDirection === 'asc'"
+              [class.fa-sort-down]="sortField === 'Id' && sortDirection === 'desc'"></i>
+          </th>
+          <th (click)="sortBy('NumId')" [class.sortable]="true" [class]="getSortClass('NumId')">
+            Identificación
+            <i class="fas fa-sort" [class.fa-sort-up]="sortField === 'NumId' && sortDirection === 'asc'"
+              [class.fa-sort-down]="sortField === 'NumId' && sortDirection === 'desc'"></i>
+          </th>
+          <th (click)="sortBy('Nombres')" [class.sortable]="true" [class]="getSortClass('Nombres')">
+            Nombres
+            <i class="fas fa-sort" [class.fa-sort-up]="sortField === 'Nombres' && sortDirection === 'asc'"
+              [class.fa-sort-down]="sortField === 'Nombres' && sortDirection === 'desc'"></i>
+          </th>
+          <th (click)="sortBy('Apellidos')" [class.sortable]="true" [class]="getSortClass('Apellidos')">
+            Apellidos
+            <i class="fas fa-sort" [class.fa-sort-up]="sortField === 'Apellidos' && sortDirection === 'asc'"
+              [class.fa-sort-down]="sortField === 'Apellidos' && sortDirection === 'desc'"></i>
+          </th>
+          <th>Correo</th>
+          <th (click)="sortBy('FechaCreacion')" [class.sortable]="true" [class]="getSortClass('FechaCreacion')">
+            Fecha Creación
+            <i class="fas fa-sort" [class.fa-sort-up]="sortField === 'FechaCreacion' && sortDirection === 'asc'"
+              [class.fa-sort-down]="sortField === 'FechaCreacion' && sortDirection === 'desc'"></i>
+          </th>
+          <th (click)="sortBy('FechaModificacion')" [class.sortable]="true" [class]="getSortClass('FechaModificacion')">
+            Fecha Modificación
+            <i class="fas fa-sort" [class.fa-sort-up]="sortField === 'FechaModificacion' && sortDirection === 'asc'"
+              [class.fa-sort-down]="sortField === 'FechaModificacion' && sortDirection === 'desc'"></i>
+          </th>
+          <th (click)="sortBy('Estado')" [class.sortable]="true" [class]="getSortClass('Estado')">
+            Estado
+            <i class="fas fa-sort" [class.fa-sort-up]="sortField === 'Estado' && sortDirection === 'asc'"
+              [class.fa-sort-down]="sortField === 'Estado' && sortDirection === 'desc'"></i>
+          </th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cliente of clientes; track cliente.id) {
+        <tr>
+          <td>{{ cliente.id }}</td>
+          <td>{{ cliente.numId }}</td>
+          <td>{{ cliente.nombres }}</td>
+          <td>{{ cliente.apellidos }}</td>
+          <td>{{ cliente.correo }}</td>
+          <td>{{ cliente.fechaCreacion | date:'short' }}</td>
+          <td>{{ cliente.fechaModificacion | date:'short' }}</td>
+          <td>{{ cliente.estado ? 'Activo' : 'Inactivo' }}</td>
+          <td>
+            <button class="btn btn-info btn-sm mr-2 btn-Editar" (click)="editCliente(cliente.id)">Editar</button>
+            <button class="btn btn-sm btn-Activar" [class.btn-danger]="cliente.estado"
+              [class.btn-success]="!cliente.estado" (click)="toggleClientStatus(cliente)">
+              {{ cliente.estado ? 'Inactivar' : 'Activar' }}
+            </button>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="9" class="text-center">No hay clientes registrados que coincidan con los criterios.</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (pagedResult && pagedResult.totalCount > 0) {
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <div>
+      Mostrando {{ (pagedResult.pageNumber - 1) * pagedResult.pageSize + 1 }} -
+      {{ Math.min(pagedResult.pageNumber * pagedResult.pageSize, pagedResult.totalCount) }} de
+      {{ pagedResult.totalCount }} clientes
+    </div>
+    <nav aria-label="Page navigation">
+      <ul class="pagination mb-0">
+        <li class="page-item" [class.disabled]="!pagedResult.hasPreviousPage">
+          <a class="page-link" (click)="goToPage(pagedResult.pageNumber - 1)">Anterior</a>
+        </li>
+        @for (pageNumber of getPagesArray(pagedResult.totalPages); track pageNumber) {
+        <li class="page-item" [class.active]="pageNumber === pagedResult.pageNumber">
+          <a class="page-link" (click)="goToPage(pageNumber)">{{ pageNumber }}</a>
+        </li>
+        }
+        <li class="page-item" [class.disabled]="!pagedResult.hasNextPage">
+          <a class="page-link" (click)="goToPage(pagedResult.pageNumber + 1)">Siguiente</a>
+        </li>
+      </ul>
+    </nav>
+    <div>
+      Tamaño de página:
+      <select class="form-select form-control-sm d-inline-block w-auto ml-2" (change)="onPageSizeChange($event)">
+        @for (size of pageSizeOptions; track size) {
+        <option [value]="size" [selected]="size === pageSize">{{ size }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  }
+</div>
